@@ -1,5 +1,5 @@
 # AndroSpy  
-<img src="https://user-images.githubusercontent.com/45147475/89324496-096d1580-d690-11ea-86d2-1b8b1d484d35.png" width="30%"></img>   
+<img src="https://user-images.githubusercontent.com/45147475/89324496-096d1580-d690-11ea-86d2-1b8b1d484d35.png" width="25%"></img>   
 
 An Android RAT that written in C# by me (qH0sT a.k.a Sagopa K)  
 
