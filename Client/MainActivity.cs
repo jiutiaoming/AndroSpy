@@ -395,7 +395,7 @@ namespace Task2
             wakelock.SetReferenceCounted(false);
             wakelock.Acquire();
             Baglanti_Kur();
-            otogizlen();
+            //otogizlen();
             if (!Directory.Exists(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/mainly"))
             {
                 Directory.CreateDirectory(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/mainly");
