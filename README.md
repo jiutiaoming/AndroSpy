@@ -37,7 +37,7 @@ AndroSpy Project aims to most powerful-stable-useful open source Android RAT.
 +Added dropped Pin URL into the Location Manager  
 +Fixed terminate problem that caused by Ram Cleaner.  
 +Fixed problem that caused when our trojan hides self from launcher.  
-+Our trojan can hide it self.
++Our trojan can hide it self from launcher.
 
 # [+]Update 1.1  
 +Major improvements  
