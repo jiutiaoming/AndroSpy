@@ -10,7 +10,9 @@ namespace izci
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            
+            var pckg = context.PackageManager;
+            ComponentName componentName = new ComponentName(context, Java.Lang.Class.FromType(typeof(MainActivity)).Name);
+            pckg.SetComponentEnabledSetting(componentName, ComponentEnabledState.Enabled, ComponentEnableOption.DontKillApp);
             //Toast.MakeText(context, "BOOT RECEIVED", ToastLength.Long).Show();          
             Intent start = new Intent(context, Java.Lang.Class.FromType(typeof(MainActivity)));
             start.AddFlags(ActivityFlags.NewTask);
