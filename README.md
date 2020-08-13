@@ -31,7 +31,7 @@ AndroSpy Project aims to most powerful-stable-useful open source Android RAT.
 <img src="https://user-images.githubusercontent.com/45147475/89323197-05d88f00-d68e-11ea-9d03-cd25d115fde7.PNG" width="18%"></img>
 <img src="https://user-images.githubusercontent.com/45147475/89323200-0709bc00-d68e-11ea-8b76-ec8cd3b847ad.PNG" width="18%"></img>
 <img src="https://user-images.githubusercontent.com/45147475/89323204-0709bc00-d68e-11ea-84c4-a25e68f9b3a6.png" width="18%"></img>
-<img src="https://user-images.githubusercontent.com/45147475/89323205-07a25280-d68e-11ea-9c63-30d22e3e37ef.png" width="18%"></img>
+<img src="https://user-images.githubusercontent.com/45147475/89323205-07a25280-d68e-11ea-9c63-30d22e3e37ef.png" width="25%"></img>
 <img src="https://user-images.githubusercontent.com/45147475/89323207-083ae900-d68e-11ea-95ad-4694ce381bfb.PNG" width="18%"></img>
 <img src="https://user-images.githubusercontent.com/45147475/89323208-08d37f80-d68e-11ea-8c81-370d28d7574d.png" width="18%"></img>
 <img src="https://user-images.githubusercontent.com/45147475/89323211-096c1600-d68e-11ea-9ef2-67f74ae0d475.PNG" width="18%"></img>
