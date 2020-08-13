@@ -3,6 +3,16 @@
 
 An Android RAT that written in C# by me (qH0sT a.k.a Sagopa K)  
 
+Minumum Android Version: 4.0
+Maximum Android Version: 9.0  
+
+Tested on some systems:  
+Android 4.4.2 - OK  
+Android 5.1.1 - OK  
+Android 7.1.2 - OK  
+Android 6.0.1 - OK  
+Android 9.0   - OK
+
 AndroSpy Project aims to most powerful-stable-useful open source Android RAT.  
 
 <img src="https://user-images.githubusercontent.com/45147475/89323157-fce7bd80-d68d-11ea-8e84-72905895d622.png" width="18%"></img> 
