@@ -3,7 +3,7 @@
 
 An Android RAT that written in C# by me (qH0sT a.k.a Sagopa K)  
 
-Minumum Android Version: 4.0
+Minumum Android Version: 4.0  
 Maximum Android Version: 9.0  
 
 Tested on some systems:  
